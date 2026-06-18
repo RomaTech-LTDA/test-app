@@ -1,0 +1,54 @@
+{
+  "name": "@romatech/orm-test-app",
+  "version": "1.0.0",
+  "description": "Demo/test application for RomaTech ORM",
+  "private": true,
+  "main": "dist/server.js",
+  "author": "RomaTech/Leandro Romanelli",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romatech-ltda/orm-test-app"
+  },
+  "homepage": "https://github.com/romatech-ltda/orm-test-app#readme",
+  "bugs": {
+    "url": "https://github.com/romatech-ltda/orm-test-app/issues"
+  },
+  "keywords": [
+    "orm",
+    "test-app",
+    "demo",
+    "romatech",
+    "express",
+    "typescript"
+  ],
+  "type": "commonjs",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@romatech/ai-extensions": "^1.0.0",
+    "@romatech/linq": "^1.0.0",
+    "@romatech/swagger": "^1.0.0",
+    "@romatech/orm": "^1.0.0",
+    "@romatech/orm-providers-memory": "^1.0.0",
+    "@romatech/orm-providers-mssql": "^1.0.0",
+    "@romatech/orm-providers-mysql": "^1.0.0",
+    "@romatech/orm-providers-oracle": "^1.0.0",
+    "@romatech/orm-providers-pgsql": "^1.0.0",
+    "express": "^5.1.0",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^24.1.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
