@@ -8,11 +8,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/romatech-ltda/orm-test-app"
+    "url": "https://github.com/RomaTech-LTDA/orm-test-app"
   },
-  "homepage": "https://github.com/romatech-ltda/orm-test-app#readme",
+  "homepage": "https://github.com/RomaTech-LTDA/orm-test-app#readme",
   "bugs": {
-    "url": "https://github.com/romatech-ltda/orm-test-app/issues"
+    "url": "https://github.com/RomaTech-LTDA/orm-test-app/issues"
   },
   "keywords": [
     "orm",
