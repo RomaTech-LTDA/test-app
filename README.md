@@ -8,7 +8,7 @@ API de demonstração que integra os pacotes da RomaTech:
 | [`@romatech/orm-providers-memory`](https://github.com/RomaTech-LTDA/orm-providers-memory) | Provider in-memory para testes e demos |
 | [`@romatech/swagger`](https://github.com/RomaTech-LTDA/swagger) | Gerador automático de Swagger/OpenAPI via análise AST (zero-config) |
 | [`@romatech/linq`](https://github.com/RomaTech-LTDA/linq) | LINQ para JavaScript com lazy evaluation e extensões de Array |
-| [`@romatech/ai-extensions`](https://github.com/RomaTech-LTDA/ai-extensions-node) | Framework de AI enablement com MCP + RAG |
+| [`@romatech/ai-extensions`](https://github.com/RomaTech-LTDA/ai-extensions) | Framework de AI enablement com MCP + RAG |
 
 ---
 
