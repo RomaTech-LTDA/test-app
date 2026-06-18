@@ -5,6 +5,8 @@ import { useSwagger, useSwaggerUi } from '@romatech/swagger';
 import { useAi, registerAiMetadata, aiTool, aiHidden, aiReadOnly } from '@romatech/ai-extensions';
 import userRoutes from './routes/user.routes';
 import productRoutes from './routes/product.routes';
+import { AppDbContext } from './context/AppDbContext';
+import { seedDatabase } from './context/seed';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -87,7 +89,7 @@ registerAiMetadata('DELETE', '/products/:id', aiHidden());
 registerAiMetadata('GET', '/health', aiHidden());
 
 // --- AI Enablement ---
-const { ragSearch } = useAi(app, {
+const { ragSearch, metrics } = useAi(app, {
     baseUrl: `http://localhost:${PORT}`,
     mcp: {
         route: '/mcp',
@@ -95,6 +97,11 @@ const { ragSearch } = useAi(app, {
         serverVersion: '1.0.0',
         enableRateLimiting: true,
     },
+});
+
+// Metrics endpoint
+app.get('/mcp/metrics', (_req, res) => {
+    res.json(metrics.getAll());
 });
 
 // Swagger — auto-generated from AST analysis (zero-config)
@@ -117,7 +124,10 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     res.status(500).json({ error: err.message ?? 'Internal server error' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    // Seed demo data
+    await seedDatabase(new AppDbContext());
+
     console.log(`API running at http://localhost:${PORT}`);
     console.log(`Swagger UI  at http://localhost:${PORT}/api-docs`);
     console.log(`MCP endpoint at http://localhost:${PORT}/mcp`);

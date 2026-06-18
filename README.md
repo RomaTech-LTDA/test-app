@@ -136,6 +136,7 @@ Após iniciar o servidor, acesse:
 - **Swagger UI:** [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 - **OpenAPI JSON:** [http://localhost:3000/api-docs.json](http://localhost:3000/api-docs.json)
 - **MCP Endpoint:** [http://localhost:3000/mcp](http://localhost:3000/mcp) (POST)
+- **MCP Metrics:** [http://localhost:3000/mcp/metrics](http://localhost:3000/mcp/metrics) (GET)
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "@romatech/orm-test-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Demo/test application for RomaTech ORM",
   "private": true,
   "main": "dist/server.js",
@@ -32,15 +32,15 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@romatech/ai-extensions": "^1.0.0",
-    "@romatech/linq": "^1.0.0",
-    "@romatech/swagger": "^1.0.0",
-    "@romatech/orm": "^1.0.0",
-    "@romatech/orm-providers-memory": "^1.0.0",
-    "@romatech/orm-providers-mssql": "^1.0.0",
-    "@romatech/orm-providers-mysql": "^1.0.0",
-    "@romatech/orm-providers-oracle": "^1.0.0",
-    "@romatech/orm-providers-pgsql": "^1.0.0",
+    "@romatech/ai-extensions": "^1.1.0",
+    "@romatech/linq": "^3.1.0",
+    "@romatech/swagger": "^1.1.0",
+    "@romatech/orm": "^1.1.0",
+    "@romatech/orm-providers-memory": "^1.1.0",
+    "@romatech/orm-providers-mssql": "^1.1.0",
+    "@romatech/orm-providers-mysql": "^1.1.0",
+    "@romatech/orm-providers-oracle": "^1.1.0",
+    "@romatech/orm-providers-pgsql": "^1.1.0",
     "express": "^5.1.0",
     "reflect-metadata": "^0.2.2"
   },

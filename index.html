@@ -439,6 +439,10 @@
 				<td><code>@romatech/linq</code></td>
 				<td>LINQ para JavaScript com lazy evaluation e extensões de Array</td>
 			</tr>
+			<tr>
+				<td><code>@romatech/ai-extensions</code></td>
+				<td>Framework de AI enablement com MCP + RAG</td>
+			</tr>
 		</tbody>
 	</table>
 	<hr>
@@ -627,6 +631,10 @@ npm start
 		</li>
 		<li><strong>OpenAPI JSON:</strong> <a
 				href="http://localhost:3000/api-docs.json">http://localhost:3000/api-docs.json</a></li>
+		<li><strong>MCP Endpoint:</strong> <a
+				href="http://localhost:3000/mcp">http://localhost:3000/mcp</a> (POST)</li>
+		<li><strong>MCP Metrics:</strong> <a
+				href="http://localhost:3000/mcp/metrics">http://localhost:3000/mcp/metrics</a> (GET)</li>
 	</ul>
 	<hr>
 	<h2 id="stack">Stack</h2>
@@ -637,6 +645,7 @@ npm start
 		<li><strong>Database:</strong> In-memory (MemoryProvider) — troque para MSSQL, PostgreSQL, MySQL ou Oracle via
 			providers</li>
 		<li><strong>Documentação:</strong> @romatech/swagger (zero-config, AST-based)</li>
+		<li><strong>AI Enablement:</strong> @romatech/ai-extensions (MCP + RAG)</li>
 		<li><strong>Utilitários:</strong> @romatech/linq (LINQ operators em Array.prototype)</li>
 	</ul>
 
