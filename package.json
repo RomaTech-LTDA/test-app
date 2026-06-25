@@ -1,7 +1,7 @@
 {
   "name": "@romatech/orm-test-app",
   "version": "1.1.0",
-  "description": "Demo/test application for RomaTech ORM",
+  "description": "Demo/test application for RomaTech ORM with AI-enabled MCP endpoint",
   "private": true,
   "main": "dist/server.js",
   "author": "RomaTech/Leandro Romanelli",
@@ -14,14 +14,7 @@
   "bugs": {
     "url": "https://github.com/RomaTech-LTDA/orm-test-app/issues"
   },
-  "keywords": [
-    "orm",
-    "test-app",
-    "demo",
-    "romatech",
-    "express",
-    "typescript"
-  ],
+  "keywords": ["orm", "mcp", "ai", "demo", "romatech", "express"],
   "type": "commonjs",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
@@ -32,16 +25,11 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@romatech/linq": "^3.3.0",
-    "@romatech/orm": "^1.2.0",
-    "@romatech/orm-providers-memory": "^1.3.0",
-    "@romatech/orm-providers-mssql": "^1.3.0",
-    "@romatech/orm-providers-mysql": "^1.3.0",
-    "@romatech/orm-providers-oracle": "^1.2.0",
-    "@romatech/orm-providers-pgsql": "^1.2.0",
-    "@romatech/orm-providers-mongodb": "^1.3.0",
-    "@romatech/swagger": "^1.3.0",
-    "@romatech/ai-extensions": "^1.3.0",
+    "@romatech/ai-extensions": "^1.0.0",
+    "@romatech/linq": "^1.0.0",
+    "@romatech/orm": "^1.0.0",
+    "@romatech/orm-providers-memory": "^1.0.0",
+    "@romatech/swagger": "^1.0.0",
     "express": "^5.1.0",
     "reflect-metadata": "^0.2.2"
   },

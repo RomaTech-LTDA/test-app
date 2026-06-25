@@ -1,654 +1,86 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<title>ORM Test App - docs</title>
-	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-
-	<style>
-		/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
-		/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-		body {
-			font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
-			font-size: var(--vscode-markdown-font-size, 14px);
-			padding: 0 26px;
-			line-height: var(--vscode-markdown-line-height, 22px);
-			word-wrap: break-word;
-		}
-
-		#code-csp-warning {
-			position: fixed;
-			top: 0;
-			right: 0;
-			color: white;
-			margin: 16px;
-			text-align: center;
-			font-size: 12px;
-			font-family: sans-serif;
-			background-color: #444444;
-			cursor: pointer;
-			padding: 6px;
-			box-shadow: 1px 1px 1px rgba(0, 0, 0, .25);
-		}
-
-		#code-csp-warning:hover {
-			text-decoration: none;
-			background-color: #007acc;
-			box-shadow: 2px 2px 2px rgba(0, 0, 0, .25);
-		}
-
-		body.scrollBeyondLastLine {
-			margin-bottom: calc(100vh - 22px);
-		}
-
-		body.showEditorSelection .code-line {
-			position: relative;
-		}
-
-		body.showEditorSelection .code-active-line:before,
-		body.showEditorSelection .code-line:hover:before {
-			content: "";
-			display: block;
-			position: absolute;
-			top: 0;
-			left: -12px;
-			height: 100%;
-		}
-
-		body.showEditorSelection li.code-active-line:before,
-		body.showEditorSelection li.code-line:hover:before {
-			left: -30px;
-		}
-
-		.vscode-light.showEditorSelection .code-active-line:before {
-			border-left: 3px solid rgba(0, 0, 0, 0.15);
-		}
-
-		.vscode-light.showEditorSelection .code-line:hover:before {
-			border-left: 3px solid rgba(0, 0, 0, 0.40);
-		}
-
-		.vscode-light.showEditorSelection .code-line .code-line:hover:before {
-			border-left: none;
-		}
-
-		.vscode-dark.showEditorSelection .code-active-line:before {
-			border-left: 3px solid rgba(255, 255, 255, 0.4);
-		}
-
-		.vscode-dark.showEditorSelection .code-line:hover:before {
-			border-left: 3px solid rgba(255, 255, 255, 0.60);
-		}
-
-		.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
-			border-left: none;
-		}
-
-		.vscode-high-contrast.showEditorSelection .code-active-line:before {
-			border-left: 3px solid rgba(255, 160, 0, 0.7);
-		}
-
-		.vscode-high-contrast.showEditorSelection .code-line:hover:before {
-			border-left: 3px solid rgba(255, 160, 0, 1);
-		}
-
-		.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
-			border-left: none;
-		}
-
-		img {
-			max-width: 100%;
-			max-height: 100%;
-		}
-
-		a {
-			text-decoration: none;
-		}
-
-		a:hover {
-			text-decoration: underline;
-		}
-
-		a:focus,
-		input:focus,
-		select:focus,
-		textarea:focus {
-			outline: 1px solid -webkit-focus-ring-color;
-			outline-offset: -1px;
-		}
-
-		hr {
-			border: 0;
-			height: 2px;
-			border-bottom: 2px solid;
-		}
-
-		h1 {
-			padding-bottom: 0.3em;
-			line-height: 1.2;
-			border-bottom-width: 1px;
-			border-bottom-style: solid;
-		}
-
-		h1,
-		h2,
-		h3 {
-			font-weight: normal;
-		}
-
-		table {
-			border-collapse: collapse;
-		}
-
-		table>thead>tr>th {
-			text-align: left;
-			border-bottom: 1px solid;
-		}
-
-		table>thead>tr>th,
-		table>thead>tr>td,
-		table>tbody>tr>th,
-		table>tbody>tr>td {
-			padding: 5px 10px;
-		}
-
-		table>tbody>tr+tr>td {
-			border-top: 1px solid;
-		}
-
-		blockquote {
-			margin: 0 7px 0 5px;
-			padding: 0 16px 0 10px;
-			border-left-width: 5px;
-			border-left-style: solid;
-		}
-
-		code {
-			font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
-			font-size: 1em;
-			line-height: 1.357em;
-		}
-
-		body.wordWrap pre {
-			white-space: pre-wrap;
-		}
-
-		pre:not(.hljs),
-		pre.hljs code>div {
-			padding: 16px;
-			border-radius: 3px;
-			overflow: auto;
-		}
-
-		pre code {
-			color: var(--vscode-editor-foreground);
-			tab-size: 4;
-		}
-
-		/** Theming */
-
-		.vscode-light pre {
-			background-color: rgba(220, 220, 220, 0.4);
-		}
-
-		.vscode-dark pre {
-			background-color: rgba(10, 10, 10, 0.4);
-		}
-
-		.vscode-high-contrast pre {
-			background-color: rgb(0, 0, 0);
-		}
-
-		.vscode-high-contrast h1 {
-			border-color: rgb(0, 0, 0);
-		}
-
-		.vscode-light table>thead>tr>th {
-			border-color: rgba(0, 0, 0, 0.69);
-		}
-
-		.vscode-dark table>thead>tr>th {
-			border-color: rgba(255, 255, 255, 0.69);
-		}
-
-		.vscode-light h1,
-		.vscode-light hr,
-		.vscode-light table>tbody>tr+tr>td {
-			border-color: rgba(0, 0, 0, 0.18);
-		}
-
-		.vscode-dark h1,
-		.vscode-dark hr,
-		.vscode-dark table>tbody>tr+tr>td {
-			border-color: rgba(255, 255, 255, 0.18);
-		}
-	</style>
-
-	<style>
-		/* Tomorrow Theme */
-		/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
-		/* Original theme - https://github.com/chriskempson/tomorrow-theme */
-
-		/* Tomorrow Comment */
-		.hljs-comment,
-		.hljs-quote {
-			color: #8e908c;
-		}
-
-		/* Tomorrow Red */
-		.hljs-variable,
-		.hljs-template-variable,
-		.hljs-tag,
-		.hljs-name,
-		.hljs-selector-id,
-		.hljs-selector-class,
-		.hljs-regexp,
-		.hljs-deletion {
-			color: #c82829;
-		}
-
-		/* Tomorrow Orange */
-		.hljs-number,
-		.hljs-built_in,
-		.hljs-builtin-name,
-		.hljs-literal,
-		.hljs-type,
-		.hljs-params,
-		.hljs-meta,
-		.hljs-link {
-			color: #f5871f;
-		}
-
-		/* Tomorrow Yellow */
-		.hljs-attribute {
-			color: #eab700;
-		}
-
-		/* Tomorrow Green */
-		.hljs-string,
-		.hljs-symbol,
-		.hljs-bullet,
-		.hljs-addition {
-			color: #718c00;
-		}
-
-		/* Tomorrow Blue */
-		.hljs-title,
-		.hljs-section {
-			color: #4271ae;
-		}
-
-		/* Tomorrow Purple */
-		.hljs-keyword,
-		.hljs-selector-tag {
-			color: #8959a8;
-		}
-
-		.hljs {
-			display: block;
-			overflow-x: auto;
-			color: #4d4d4c;
-			padding: 0.5em;
-		}
-
-		.hljs-emphasis {
-			font-style: italic;
-		}
-
-		.hljs-strong {
-			font-weight: bold;
-		}
-	</style>
-
-	<style>
-		/*
- * Markdown PDF CSS
- */
-
-		body {
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
-			padding: 0 12px;
-		}
-
-		pre {
-			background-color: #f8f8f8;
-			border: 1px solid #cccccc;
-			border-radius: 3px;
-			overflow-x: auto;
-			white-space: pre-wrap;
-			overflow-wrap: break-word;
-		}
-
-		pre:not(.hljs) {
-			padding: 23px;
-			line-height: 19px;
-		}
-
-		blockquote {
-			background: rgba(127, 127, 127, 0.1);
-			border-color: rgba(0, 122, 204, 0.5);
-		}
-
-		.emoji {
-			height: 1.4em;
-		}
-
-		code {
-			font-size: 14px;
-			line-height: 19px;
-		}
-
-		/* for inline code */
-		:not(pre):not(.hljs)>code {
-			color: #C9AE75;
-			/* Change the old color so it seems less like an error */
-			font-size: inherit;
-		}
-
-		/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
--------------------------------------------------------- */
-		.page {
-			page-break-after: always;
-		}
-
-		header {
-			height: 60px;
-			display: flex;
-			align-items: center;
-			padding: 0 1rem;
-			gap: 1rem;
-			z-index: 1000;
-		}
-
-		header img {
-			height: 60px;
-			width: auto;
-		}
-
-		header h1 {
-			font-size: 1.25rem;
-			margin: 0;
-			flex-grow: 1;
-			user-select: none;
-		}
-
-		header nav.links {
-			display: flex;
-			gap: 1rem;
-		}
-
-		header nav.links a {
-			text-decoration: none;
-			font-weight: 600;
-			border: 1px solid;
-			padding: 0.25rem 0.75rem;
-			border-radius: 4px;
-			transition: background-color 0.3s;
-		}
-
-		header nav.links a:hover,
-		header nav.links a:focus {
-			background-color: rgba(255 255 255 / 0.3);
-			outline: none;
-		}
-	</style>
-
-	<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+    <title>RomaTech ORM Test API</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 900px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #333; }
+        h1 { border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+        pre { background: #f6f8fa; border: 1px solid #e1e4e8; border-radius: 6px; padding: 1rem; overflow-x: auto; }
+        code { font-family: Menlo, Monaco, monospace; font-size: 0.9em; }
+        :not(pre) > code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; }
+        table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+        th, td { border: 1px solid #e1e4e8; padding: 8px 12px; text-align: left; }
+        th { background: #f6f8fa; }
+        a { color: #0366d6; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+        header img { height: 60px; }
+        header h1 { border: none; margin: 0; flex-grow: 1; }
+        header nav a { border: 1px solid #0366d6; padding: 4px 12px; border-radius: 4px; font-weight: 600; font-size: 0.9em; }
+    </style>
 </head>
-
 <body>
-	<script>
-		mermaid.initialize({
-			startOnLoad: true,
-			theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
-				? 'dark'
-				: 'default'
-		});
-	</script>
-	<header>
-		<img src="logo.png" alt="RomaTech Logo">
-		<h1>RomaTech ORM – Test API</h1>
-	</header>
-	<h1 id="romatech-orm--test-api">RomaTech ORM – Test API</h1>
-	<p>API de demonstração que integra os pacotes internos da RomaTech:</p>
-	<table>
-		<thead>
-			<tr>
-				<th>Pacote</th>
-				<th>Descrição</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><code>@romatech/orm</code></td>
-				<td>ORM TypeScript inspirado no Entity Framework Core</td>
-			</tr>
-			<tr>
-				<td><code>@romatech/orm-providers-memory</code></td>
-				<td>Provider in-memory para testes e demos</td>
-			</tr>
-			<tr>
-				<td><code>@romatech/swagger</code></td>
-				<td>Gerador automático de Swagger/OpenAPI via análise AST (zero-config)</td>
-			</tr>
-			<tr>
-				<td><code>@romatech/linq</code></td>
-				<td>LINQ para JavaScript com lazy evaluation e extensões de Array</td>
-			</tr>
-			<tr>
-				<td><code>@romatech/ai-extensions</code></td>
-				<td>Framework de AI enablement com MCP + RAG</td>
-			</tr>
-		</tbody>
-	</table>
-	<hr>
-	<h2 id="pré-requisitos">Pré-requisitos</h2>
-	<ul>
-		<li><strong>Node.js</strong> &gt;= 18</li>
-		<li><strong>npm</strong> &gt;= 9</li>
-	</ul>
-	<p>Os pacotes <code>@romatech/orm</code>, <code>@romatech/swagger</code> e <code>@romatech/linq</code> são
-		referenciados via <code>file:</code> no <code>package.json</code>, então o repositório precisa manter a
-		estrutura de pastas esperada:</p>
-	<pre class="hljs"><code><div>romatech/
-├── linq/                           ← @romatech/linq
-├── swagger/                        ← @romatech/swagger
-├── romatech-orm/                   ← @romatech/orm
-├── romatech-orm-providers-memory/  ← @romatech/orm-providers-memory
-└── romatech-orm-test-app/          ← esta aplicação
-</div></code></pre>
-	<hr>
-	<h2 id="instalação">Instalação</h2>
-	<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> orm/romatech-orm-test-app
-npm install
-</div></code></pre>
-	<p>Isso resolve todas as dependências, incluindo os links locais para os pacotes irmãos.</p>
-	<hr>
-	<h2 id="build">Build</h2>
-	<p>Compila o TypeScript para JavaScript no diretório <code>dist/</code>:</p>
-	<pre class="hljs"><code><div>npm run build
-</div></code></pre>
-	<hr>
-	<h2 id="executar">Executar</h2>
-	<h3 id="modo-desenvolvimento-com-hot-reload">Modo desenvolvimento (com hot-reload)</h3>
-	<pre class="hljs"><code><div>npm run dev
-</div></code></pre>
-	<p>O servidor reinicia automaticamente a cada alteração nos arquivos <code>.ts</code>.</p>
-	<h3 id="modo-produção">Modo produção</h3>
-	<pre class="hljs"><code><div>npm run build
-npm start
-</div></code></pre>
-	<hr>
-	<h2 id="variáveis-de-ambiente">Variáveis de ambiente</h2>
-	<table>
-		<thead>
-			<tr>
-				<th>Variável</th>
-				<th>Padrão</th>
-				<th>Descrição</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><code>PORT</code></td>
-				<td><code>3000</code></td>
-				<td>Porta HTTP do servidor</td>
-			</tr>
-		</tbody>
-	</table>
-	<hr>
-	<h2 id="endpoints">Endpoints</h2>
-	<h3 id="health-check">Health-check</h3>
-	<pre class="hljs"><code><div>GET /health
-</div></code></pre>
-	<h3 id="users-crud">Users (CRUD)</h3>
-	<table>
-		<thead>
-			<tr>
-				<th>Método</th>
-				<th>Rota</th>
-				<th>Descrição</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>GET</td>
-				<td><code>/users</code></td>
-				<td>Lista todos (suporta <code>?sortBy=name</code> ou <code>?sortBy=age</code>)</td>
-			</tr>
-			<tr>
-				<td>GET</td>
-				<td><code>/users/:id</code></td>
-				<td>Busca por ID</td>
-			</tr>
-			<tr>
-				<td>POST</td>
-				<td><code>/users</code></td>
-				<td>Cria um usuário</td>
-			</tr>
-			<tr>
-				<td>PUT</td>
-				<td><code>/users/:id</code></td>
-				<td>Atualiza um usuário</td>
-			</tr>
-			<tr>
-				<td>DELETE</td>
-				<td><code>/users/:id</code></td>
-				<td>Remove um usuário</td>
-			</tr>
-		</tbody>
-	</table>
-	<h3 id="products-crud">Products (CRUD)</h3>
-	<table>
-		<thead>
-			<tr>
-				<th>Método</th>
-				<th>Rota</th>
-				<th>Descrição</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>GET</td>
-				<td><code>/products</code></td>
-				<td>Lista todos</td>
-			</tr>
-			<tr>
-				<td>GET</td>
-				<td><code>/products/search</code></td>
-				<td>Busca com filtros e paginação</td>
-			</tr>
-			<tr>
-				<td>GET</td>
-				<td><code>/products/:id</code></td>
-				<td>Busca por ID</td>
-			</tr>
-			<tr>
-				<td>POST</td>
-				<td><code>/products</code></td>
-				<td>Cria um produto</td>
-			</tr>
-			<tr>
-				<td>PUT</td>
-				<td><code>/products/:id</code></td>
-				<td>Atualiza um produto</td>
-			</tr>
-			<tr>
-				<td>DELETE</td>
-				<td><code>/products/:id</code></td>
-				<td>Remove um produto</td>
-			</tr>
-		</tbody>
-	</table>
-	<p><strong>Parâmetros de <code>/products/search</code>:</strong></p>
-	<table>
-		<thead>
-			<tr>
-				<th>Query Param</th>
-				<th>Tipo</th>
-				<th>Padrão</th>
-				<th>Descrição</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td><code>minPrice</code></td>
-				<td>number</td>
-				<td>0</td>
-				<td>Preço mínimo</td>
-			</tr>
-			<tr>
-				<td><code>maxPrice</code></td>
-				<td>number</td>
-				<td>MAX</td>
-				<td>Preço máximo</td>
-			</tr>
-			<tr>
-				<td><code>page</code></td>
-				<td>integer</td>
-				<td>1</td>
-				<td>Página atual</td>
-			</tr>
-			<tr>
-				<td><code>pageSize</code></td>
-				<td>integer</td>
-				<td>10</td>
-				<td>Itens por página (máx 50)</td>
-			</tr>
-		</tbody>
-	</table>
-	<hr>
-	<h2 id="swagger-ui">Swagger UI</h2>
-	<p>A documentação da API é gerada automaticamente pelo <code>@romatech/swagger</code> via análise AST do
-		código-fonte — sem decorators, sem anotações manuais.</p>
-	<p>Após iniciar o servidor, acesse:</p>
-	<ul>
-		<li><strong>Swagger UI:</strong> <a href="http://localhost:3000/api-docs">http://localhost:3000/api-docs</a>
-		</li>
-		<li><strong>OpenAPI JSON:</strong> <a
-				href="http://localhost:3000/api-docs.json">http://localhost:3000/api-docs.json</a></li>
-		<li><strong>MCP Endpoint:</strong> <a
-				href="http://localhost:3000/mcp">http://localhost:3000/mcp</a> (POST)</li>
-		<li><strong>MCP Metrics:</strong> <a
-				href="http://localhost:3000/mcp/metrics">http://localhost:3000/mcp/metrics</a> (GET)</li>
-	</ul>
-	<hr>
-	<h2 id="stack">Stack</h2>
-	<ul>
-		<li><strong>Runtime:</strong> Node.js + TypeScript</li>
-		<li><strong>Framework:</strong> Express 5</li>
-		<li><strong>ORM:</strong> @romatech/orm (Entity Framework-like com DbContext, DbSet, decorators)</li>
-		<li><strong>Database:</strong> In-memory (MemoryProvider) — troque para MSSQL, PostgreSQL, MySQL ou Oracle via
-			providers</li>
-		<li><strong>Documentação:</strong> @romatech/swagger (zero-config, AST-based)</li>
-		<li><strong>AI Enablement:</strong> @romatech/ai-extensions (MCP + RAG)</li>
-		<li><strong>Utilitários:</strong> @romatech/linq (LINQ operators em Array.prototype)</li>
-	</ul>
+    <header>
+        <img src="logo.png" alt="RomaTech" />
+        <h1>RomaTech ORM – Test API</h1>
+        <nav>
+            <a href="https://github.com/RomaTech-LTDA/orm-test-app">GitHub</a>
+        </nav>
+    </header>
 
+    <p>API de demonstração que integra todos os pacotes RomaTech com o pattern de <strong>decorators</strong> (idêntico ao .NET).</p>
+
+    <h2>Pattern</h2>
+    <pre><code>@Controller('/users')
+class UserController {
+    @Get('/')
+    @AiDescription('Lists all users')
+    static async getAll(req, res) { ... }
+
+    @Post('/')
+    @AiTool('create_user')
+    @AiDescription('Creates a new user')
+    static async create(req, res) { ... }
+
+    @Delete('/:id')
+    @AiHidden()
+    static async delete(req, res) { ... }
+}
+
+// server.ts
+useController(app, UserController);
+useAi(app);</code></pre>
+
+    <h2>Endpoints</h2>
+    <table>
+        <thead><tr><th>Método</th><th>Rota</th><th>AI</th></tr></thead>
+        <tbody>
+            <tr><td>GET</td><td>/users</td><td>ReadOnly (RAG)</td></tr>
+            <tr><td>POST</td><td>/users</td><td>MCP Tool: <code>create_user</code></td></tr>
+            <tr><td>PUT</td><td>/users/:id</td><td>MCP Tool: <code>update_user</code></td></tr>
+            <tr><td>GET</td><td>/products</td><td>ReadOnly (RAG)</td></tr>
+            <tr><td>GET</td><td>/products/search</td><td>MCP Tool: <code>search_products</code></td></tr>
+            <tr><td>POST</td><td>/products</td><td>MCP Tool: <code>create_product</code></td></tr>
+            <tr><td>PUT</td><td>/products/:id</td><td>MCP Tool: <code>update_product</code></td></tr>
+        </tbody>
+    </table>
+
+    <h2>URLs</h2>
+    <ul>
+        <li><strong>API</strong>: <a href="http://localhost:3000">http://localhost:3000</a></li>
+        <li><strong>Swagger UI</strong>: <a href="http://localhost:3000/api-docs">http://localhost:3000/api-docs</a></li>
+        <li><strong>MCP</strong>: POST <a href="http://localhost:3000/mcp">http://localhost:3000/mcp</a></li>
+        <li><strong>Metrics</strong>: <a href="http://localhost:3000/mcp/metrics">http://localhost:3000/mcp/metrics</a></li>
+    </ul>
+
+    <h2>Stack</h2>
+    <ul>
+        <li>Express 5 + TypeScript</li>
+        <li>@romatech/orm (Entity Framework-like)</li>
+        <li>@romatech/swagger (zero-config OpenAPI)</li>
+        <li>@romatech/ai-extensions (MCP + RAG via decorators)</li>
+        <li>@romatech/linq (LINQ em Array.prototype)</li>
+    </ul>
 </body>
-
 </html>

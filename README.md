@@ -1,21 +1,48 @@
 # RomaTech ORM – Test API
 
-API de demonstração que integra os pacotes da RomaTech:
+API de demonstração que integra todos os pacotes da RomaTech com o pattern de decorators.
 
 | Pacote | Descrição |
 |--------|-----------|
 | [`@romatech/orm`](https://github.com/RomaTech-LTDA/orm) | ORM TypeScript inspirado no Entity Framework Core |
-| [`@romatech/orm-providers-memory`](https://github.com/RomaTech-LTDA/orm-providers-memory) | Provider in-memory para testes e demos |
-| [`@romatech/swagger`](https://github.com/RomaTech-LTDA/swagger) | Gerador automático de Swagger/OpenAPI via análise AST (zero-config) |
-| [`@romatech/linq`](https://github.com/RomaTech-LTDA/linq) | LINQ para JavaScript com lazy evaluation e extensões de Array |
-| [`@romatech/ai-extensions`](https://github.com/RomaTech-LTDA/ai-extensions) | Framework de AI enablement com MCP + RAG |
+| [`@romatech/orm-providers-memory`](https://github.com/RomaTech-LTDA/orm-providers-memory) | Provider in-memory para testes |
+| [`@romatech/swagger`](https://github.com/RomaTech-LTDA/swagger) | Gerador automático de Swagger/OpenAPI via AST |
+| [`@romatech/linq`](https://github.com/RomaTech-LTDA/linq) | LINQ para JavaScript com lazy evaluation |
+| [`@romatech/ai-extensions`](https://github.com/RomaTech-LTDA/ai-extensions-node) | AI enablement com MCP + RAG via decorators |
 
 ---
 
-## Pré-requisitos
+## Como funciona
 
-- **Node.js** >= 18
-- **npm** >= 9
+A app usa **decorators** no estilo .NET para declarar rotas e AI metadata num só lugar:
+
+```typescript
+@Controller('/users')
+class UserController {
+    @Get('/')
+    @AiDescription('Lists all users')
+    @AiCategory('Users')
+    static async getAll(req, res) { ... }
+
+    @Post('/')
+    @AiTool('create_user')
+    @AiDescription('Creates a new user')
+    @AiRateLimit(20)
+    static async create(req, res) { ... }
+
+    @Delete('/:id')
+    @AiHidden()
+    static async delete(req, res) { ... }
+}
+```
+
+No `server.ts`, uma linha registra tudo:
+
+```typescript
+useController(app, UserController);
+useController(app, ProductController);
+useAi(app, { baseUrl: 'http://localhost:3000' });
+```
 
 ---
 
@@ -27,128 +54,90 @@ npm install
 
 ---
 
-## Build
-
-Compila o TypeScript para JavaScript no diretório `dist/`:
-
-```bash
-npm run build
-```
-
----
-
 ## Executar
 
-### Modo desenvolvimento (com hot-reload)
-
 ```bash
+# Desenvolvimento (hot-reload)
 npm run dev
+
+# Produção
+npm run build && npm start
 ```
-
-O servidor reinicia automaticamente a cada alteração nos arquivos `.ts`.
-
-### Modo produção
-
-```bash
-npm run build
-npm start
-```
-
----
-
-## Variáveis de ambiente
-
-| Variável | Padrão | Descrição |
-|----------|--------|-----------|
-| `PORT`   | `3000` | Porta HTTP do servidor |
 
 ---
 
 ## Endpoints
 
-### Health-check
+### Users
 
-```
-GET /health
-```
+| Método | Rota | AI Exposure | Descrição |
+|--------|------|-------------|-----------|
+| GET | `/users` | ReadOnly (RAG) | Lista todos |
+| GET | `/users/:id` | ReadOnly (RAG) | Busca por ID |
+| POST | `/users` | **MCP Tool**: `create_user` | Cria um usuário |
+| PUT | `/users/:id` | **MCP Tool**: `update_user` | Atualiza um usuário |
+| DELETE | `/users/:id` | Hidden | Remove um usuário |
 
-### Users (CRUD)
+### Products
 
-| Método | Rota | Descrição | AI Exposure |
-|--------|------|-----------|-------------|
-| GET | `/users` | Lista todos (suporta `?sortBy=name` ou `?sortBy=age`) | Read-only |
-| GET | `/users/:id` | Busca por ID | Read-only |
-| POST | `/users` | Cria um usuário | MCP Tool: `create_user` |
-| PUT | `/users/:id` | Atualiza um usuário | MCP Tool: `update_user` |
-| DELETE | `/users/:id` | Remove um usuário | Hidden |
+| Método | Rota | AI Exposure | Descrição |
+|--------|------|-------------|-----------|
+| GET | `/products` | ReadOnly (RAG) | Lista todos |
+| GET | `/products/:id` | ReadOnly (RAG) | Busca por ID |
+| GET | `/products/search` | **MCP Tool**: `search_products` | Busca com filtros |
+| POST | `/products` | **MCP Tool**: `create_product` | Cria um produto |
+| PUT | `/products/:id` | **MCP Tool**: `update_product` | Atualiza um produto |
+| DELETE | `/products/:id` | Hidden | Remove um produto |
 
-### Products (CRUD)
+### Infraestrutura
 
-| Método | Rota | Descrição | AI Exposure |
-|--------|------|-----------|-------------|
-| GET | `/products` | Lista todos | Read-only |
-| GET | `/products/search` | Busca com filtros e paginação | MCP Tool: `search_products` |
-| GET | `/products/:id` | Busca por ID | Read-only |
-| POST | `/products` | Cria um produto | MCP Tool: `create_product` |
-| PUT | `/products/:id` | Atualiza um produto | MCP Tool: `update_product` |
-| DELETE | `/products/:id` | Remove um produto | Hidden |
-
-**Parâmetros de `/products/search`:**
-
-| Query Param | Tipo | Padrão | Descrição |
-|-------------|------|--------|-----------|
-| `minPrice` | number | 0 | Preço mínimo |
-| `maxPrice` | number | MAX | Preço máximo |
-| `page` | integer | 1 | Página atual |
-| `pageSize` | integer | 10 | Itens por página (máx 50) |
+| Rota | Descrição |
+|------|-----------|
+| GET `/health` | Health check |
+| GET `/api-docs` | Swagger UI |
+| GET `/api-docs.json` | OpenAPI JSON |
+| POST `/mcp` | MCP endpoint (JSON-RPC) |
+| GET `/mcp/health` | MCP health check |
+| GET `/mcp/metrics` | Métricas de uso dos tools |
 
 ---
 
-## MCP (Model Context Protocol)
-
-A API expõe um endpoint MCP em `POST /mcp` via `@romatech/ai-extensions`.
+## Testando o MCP
 
 ```bash
-# Initialize
-curl -X POST http://localhost:3000/mcp \
+# Listar tools disponíveis
+curl -s -X POST http://localhost:3000/mcp \
   -H "Content-Type: application/json" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"initialize"}'
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | jq
 
-# List tools
-curl -X POST http://localhost:3000/mcp \
+# Criar um produto via MCP
+curl -s -X POST http://localhost:3000/mcp \
   -H "Content-Type: application/json" \
-  -d '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"create_product","arguments":{"name":"Widget","price":9.99}}}' | jq
 
-# Call a tool
-curl -X POST http://localhost:3000/mcp \
+# Buscar na documentação via RAG
+curl -s -X POST http://localhost:3000/mcp \
   -H "Content-Type: application/json" \
-  -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"create_product","arguments":{"name":"Widget","price":9.99}}}'
+  -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"rag_search","arguments":{"query":"como criar produtos"}}}' | jq
 ```
 
 ---
 
-## Swagger UI
+## Seed Data
 
-A documentação da API é gerada automaticamente pelo `@romatech/swagger` via análise AST do código-fonte — sem decorators, sem anotações manuais.
-
-Após iniciar o servidor, acesse:
-
-- **Swagger UI:** [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
-- **OpenAPI JSON:** [http://localhost:3000/api-docs.json](http://localhost:3000/api-docs.json)
-- **MCP Endpoint:** [http://localhost:3000/mcp](http://localhost:3000/mcp) (POST)
-- **MCP Metrics:** [http://localhost:3000/mcp/metrics](http://localhost:3000/mcp/metrics) (GET)
+A app inicia com dados de demonstração (5 users + 8 products) para que o MCP tenha dados para consultar.
 
 ---
 
 ## Stack
 
-- **Runtime:** Node.js + TypeScript
-- **Framework:** Express 5
-- **ORM:** @romatech/orm (Entity Framework-like com DbContext, DbSet, decorators)
-- **Database:** In-memory (MemoryProvider) — troque para MSSQL, PostgreSQL, MySQL ou Oracle via providers
-- **Documentação:** @romatech/swagger (zero-config, AST-based)
-- **AI Enablement:** @romatech/ai-extensions (MCP + RAG)
-- **Utilitários:** @romatech/linq (LINQ operators em Array.prototype)
+- **Runtime**: Node.js + TypeScript
+- **Framework**: Express 5
+- **ORM**: @romatech/orm (DbContext, DbSet, decorators)
+- **Database**: In-memory (MemoryProvider)
+- **Documentação**: @romatech/swagger (zero-config, AST)
+- **AI**: @romatech/ai-extensions (decorators → MCP + RAG)
+- **Utilitários**: @romatech/linq (LINQ em Array.prototype)
 
 ---
 

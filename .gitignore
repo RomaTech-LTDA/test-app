@@ -50,3 +50,5 @@ dist
 
 # ORM config (contains credentials)
 orm.config.js
+
+publish.sh
