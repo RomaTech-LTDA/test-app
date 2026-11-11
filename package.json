@@ -38,7 +38,7 @@
     "@romatech/linq": "^2.0.0",
     "@romatech/orm": "^2.0.0",
     "@romatech/orm-providers-memory": "^2.0.0",
-    "@romatech/swagger": "^2.0.0",
+    "@romatech/swagger": "^3.0.0",
     "express": "^5.1.0",
     "reflect-metadata": "^0.2.2"
   },
