@@ -64,6 +64,46 @@ npm run dev
 npm run build && npm start
 ```
 
+> **Requer `@romatech/swagger` 3.0.0 ou superior.** Com a versão 2.0.0
+> publicada, `useSwagger(express())` lança *"Could not detect framework"* e o
+> servidor não sobe. Depois da publicação da 3.0.0, atualize a dependência
+> (`npm install @romatech/swagger@^3`). Até lá, o teste que sobe o servidor
+> real aparece como **TODO** em `npm test`.
+
+## Testes
+
+```bash
+npm test   # compila e roda test/api.test.js
+```
+
+Os testes sobem os controllers com Express e exercitam a API (seed, busca,
+criação, atualização e validação). Um teste também sobe o `dist/server.js`
+real (Swagger, MCP) e verifica `/users`, `/api-docs.json` e `/api-docs`.
+
+## Docker
+
+```bash
+docker build -t orm-test-app .
+docker run -p 3000:3000 orm-test-app
+```
+
+A imagem de runtime inclui `src/` e `tsconfig.json`, porque o
+`@romatech/swagger` gera o OpenAPI a partir do código TypeScript em tempo de
+execução. O container roda como o usuário `node`.
+
+## Limitações conhecidas
+
+- O `@romatech/swagger` documenta rotas registradas com `app.get()`/routers.
+  As rotas dos controllers com decorators (`@Controller`, `@Get`…) do
+  `@romatech/ai-extensions` **não** aparecem no OpenAPI. Como o MCP é montado a
+  partir do OpenAPI, hoje o `tools/list` expõe apenas `rag_search`: as tools
+  `create_user`, `update_user`, `search_products`, `create_product` e
+  `update_product` listadas abaixo ainda não são publicadas.
+- `/mcp`, `/mcp/metrics` e os endpoints de escrita não têm autenticação nem
+  limite de requisições. É uma aplicação de demonstração: não a exponha na
+  internet sem acrescentar autenticação.
+- Os dados ficam em memória (`MemoryProvider`) e são recriados a cada start.
+
 ---
 
 ## Endpoints

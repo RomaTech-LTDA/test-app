@@ -1,6 +1,6 @@
 {
   "name": "@romatech/orm-test-app",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Demo/test application for RomaTech ORM with AI-enabled MCP endpoint",
   "private": true,
   "main": "dist/server.js",
@@ -14,15 +14,24 @@
   "bugs": {
     "url": "https://github.com/RomaTech-LTDA/orm-test-app/issues"
   },
-  "keywords": ["orm", "mcp", "ai", "demo", "romatech", "express"],
+  "keywords": [
+    "orm",
+    "mcp",
+    "ai",
+    "demo",
+    "romatech",
+    "express"
+  ],
   "type": "commonjs",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "pretest": "npm run build",
+    "test": "node --test"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "dependencies": {
     "@romatech/ai-extensions": "^2.0.0",

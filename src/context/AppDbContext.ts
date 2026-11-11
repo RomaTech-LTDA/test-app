@@ -5,6 +5,13 @@ import { Product } from '../entities/Product';
 
 export class AppDbContext extends DbContext {
 
+    /**
+     * One provider for the whole process. Each controller and the seed create
+     * their own AppDbContext; a provider per context would give each of them a
+     * separate, empty in-memory database.
+     */
+    private static readonly provider = new MemoryProvider();
+
     public users = this.set(User);
     public products = this.set(Product);
 
@@ -18,6 +25,6 @@ export class AppDbContext extends DbContext {
     private static createProvider() {
         // Use MemoryProvider by default for demo purposes.
         // To use MSSQL, install @romatech/orm-providers-mssql and change this.
-        return new MemoryProvider();
+        return AppDbContext.provider;
     }
 }

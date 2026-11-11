@@ -52,7 +52,8 @@ app.get('/mcp/metrics', (_req, res) => res.json(metrics.getAll()));
 // ─── Error Handler ───────────────────────────────────────────────────────────
 app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     console.error(err);
-    res.status(500).json({ error: err.message ?? 'Internal server error' });
+    // Do not echo internal error messages (driver/SQL details) to clients.
+    res.status(500).json({ error: 'Internal server error' });
 });
 
 // ─── Start ───────────────────────────────────────────────────────────────────
